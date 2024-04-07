@@ -1,55 +1,32 @@
-import React from "react";
-import classes from "./CssModules.module.scss";
+import { FC, ButtonHTMLAttributes } from "react";
+import classNames from "classnames";
+import styles from "./Button.module.css";
 
-type Props = {
-    onClick:(event: any) =>void
+interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  size?: "small" | "medium" | "large";
+  visual?: "primary" | "secondary" | "alert";
 }
 
-export const AddBt: React.FC<Props>= (props) => {
-
-    const addTodo = () => {
-        props.onClick();
-    }
-
-    const style = {
-        "backgroundColor": props.backgroundColor
-    };
-
-    return (
-        <>
-            <input className={classes.addBtn} type="button" value="追加" onClick={addTodo} style={style}/>
-        </>
-    );
+const Button: FC<ButtonProps> = ({
+  size = "medium",
+  visual = "primary",
+  children,
+  className,
+  ...props
+}) => {
+  return (
+    <button
+      className={classNames(
+        styles.button,
+        styles[size],
+        styles[visual],
+        className
+      )}
+      {...props}
+    >
+      {children}
+    </button>
+  );
 };
 
-export const DeleteBtn: React.FC = (props) => {
-
-    const deleteTodo = () => {
-        props.onClick();
-    }
-
-    const todo = props;
-
-    return (
-        <>
-            <button id="dltBtn" className={classes.deleteBtn} onClick={()=>deleteTodo(todo.id)}>削除</button>
-        </>
-    );
-};
-
-export const CompleteBtn: React.FC = (props) => {
-
-    const completeTodo = () => {
-        props.onClick();
-    }
-
-    const todo = props;
-
-
-
-    return (
-        <>
-            <button id="cmpBtn" className={classes.completeBtn} onClick={()=>completeTodo(todo.id)}>完了</button>
-        </>
-    );
-};
+export default Button;
